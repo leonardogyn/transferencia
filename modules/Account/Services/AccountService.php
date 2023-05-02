@@ -1,0 +1,34 @@
+<?php
+
+namespace Modules\Account\Services;
+
+use Modules\Account\Repositories\Interfaces\AccountRepositoryInterface;
+use Modules\Account\Services\Interfaces\AccountServiceInterface;
+
+class AccountService implements AccountServiceInterface
+{
+
+    protected $accountRepository;
+
+    public function __construct(AccountRepositoryInterface $accountRepository)
+    {
+        $this->accountRepository = $accountRepository;
+    }
+
+    public function list()
+    {
+        return $this->accountRepository->all();
+    }
+
+    public function create(array $account)
+    {
+        return $this->accountRepository->create($account);
+    }
+
+    public function update($model, $id)
+    {
+    }
+    public function delete($model)
+    {
+    }
+}
