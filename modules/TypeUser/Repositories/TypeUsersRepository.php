@@ -7,7 +7,7 @@ use Modules\TypeUser\Entities\TypeUsers;
 use App\Http\Repositories\Interfaces\BaseRepositoryInterface;
 use Modules\TypeUser\Repositories\Interfaces\TypeUsersRepositoryInterface;
 
-class TypeUsersRepository extends BaseRepository implements TypeUsersRepositoryInterface
+class TypeUsersRepository implements TypeUsersRepositoryInterface
 {
     protected $repository;
 
@@ -22,9 +22,9 @@ class TypeUsersRepository extends BaseRepository implements TypeUsersRepositoryI
         return $this->repository->all();
     }
 
-    public function findByUuid($uuid)
+    public function find($id)
     {
-        return $this->repository->findByUuid($uuid);
+        return $this->repository->find($id);
     }
 
     public function create(array $typeUser)

@@ -4,9 +4,28 @@ namespace Modules\Transfer\Request;
 
 use Modules\Transfer\Rule\ExcludeTransferRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Modules\Account\Services\Interfaces\AccountServiceInterface;
+use Modules\Transfer\Rule\TransferPayeeRule;
+use Modules\Transfer\Rule\TransferPayerRule;
+use Modules\Transfer\Rule\TransferRule;
+use Modules\TypeTransfer\Services\Interfaces\TypeTransferServiceInterface;
 
 class TransferRequest extends FormRequest
 {
+    protected $serviceAccount;
+    protected $serviceTypeTransfer;
+
+    /**
+     * Create a new rule instance.
+     *
+     * @return void
+     */
+    public function __construct(AccountServiceInterface $serviceAccount, TypeTransferServiceInterface $serviceTypeTransfer)
+    {
+        $this->serviceAccount = $serviceAccount;
+        $this->serviceTypeTransfer = $serviceTypeTransfer;
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -46,13 +65,15 @@ class TransferRequest extends FormRequest
                 'unique:transfers,id,NULL,id',
                 'max:36'
             ],
-            'payer_id' => [
+            'account_payer_id' => [
                 'required',
                 'max:36',
+                new TransferPayerRule($this->serviceAccount)
             ],
-            'payee_id' => [
+            'account_payee_id' => [
                 'required',
                 'max:36',
+                new TransferPayeeRule($this->serviceAccount)
             ],
             'value' => [
                 'required',
@@ -63,6 +84,7 @@ class TransferRequest extends FormRequest
             'type_transfer_id' => [
                 'required',
                 'max:36',
+                new TransferRule($this->serviceTypeTransfer)
             ],
 
         ];
@@ -78,7 +100,7 @@ class TransferRequest extends FormRequest
                     'required',
                     'unique:transfers,id,' . $this->id . ',id',
                     'max:36'
-                ]
+                ],
             ];
 
             return array_merge($rules_default, $rules_update);
@@ -115,11 +137,11 @@ class TransferRequest extends FormRequest
     public function attributes()
     {
         $result = [
-            'id'                => 'Identificador',
-            'payer_id'          => 'Pagador',
-            'paryee_id'         => 'Beneficiário',
-            'value'             => 'Saldo',
-            'type_transfer_id'  => 'Identificador de Transferência',
+            'id'                    => 'Identificador',
+            'account_payer_id'      => 'Conta Pagadora',
+            'account_payee_id'     => 'Conta Beneficiária',
+            'value'                 => 'Saldo',
+            'type_transfer_id'      => 'Identificador de Transferência',
         ];
 
         return $result;
@@ -134,12 +156,12 @@ class TransferRequest extends FormRequest
     {
         return [
             'id.required'                   => 'O campo Identificador é obrigatório',
-            'payer_id.required'             => 'O campo Identificador do Cliente é obrigatório',
-            'payee_id.required'             => 'O campo Identificador do Cliente é obrigatório',
+            'account_payer_id.required'     => 'O campo da Conta do Pagador é obrigatório',
+            'account_payee_id.required'     => 'O campo da Conta do Beneficiário é obrigatório',
             'value.required'                => 'O campo Saldo é obrigatório',
             'value.gt'                      => 'O campo Valor deve ser maior que zero',
             'value.max'                     => 'O campo Valor é maior que o permitido',
-            'type_transfer_id.required'     => 'O campo Identificador do Cliente é obrigatório',
+            'type_transfer_id.required'     => 'O campo Identificador do Usuário é obrigatório',
         ];
     }
 }

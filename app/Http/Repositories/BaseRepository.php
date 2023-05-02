@@ -2,7 +2,6 @@
 
 namespace App\Http\Repositories;
 
-use Modules\TypeClient\Entities\TypeClient;
 use App\Http\Repositories\Interfaces\BaseRepositoryInterface;
 
 class BaseRepository implements BaseRepositoryInterface

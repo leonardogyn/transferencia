@@ -20,6 +20,11 @@ class AccountService implements AccountServiceInterface
         return $this->accountRepository->all();
     }
 
+    public function find($id, $param = null)
+    {
+        return $this->accountRepository->find($id, $param);
+    }
+
     public function create(array $account)
     {
         return $this->accountRepository->create($account);

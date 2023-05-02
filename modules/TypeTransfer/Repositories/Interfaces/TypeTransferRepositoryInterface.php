@@ -5,6 +5,6 @@ namespace Modules\TypeTransfer\Repositories\Interfaces;
 interface TypeTransferRepositoryInterface
 {
     public function all();
-    public function findByUuid($uuid);
+    public function find($id);
     public function create(array $data);
 }

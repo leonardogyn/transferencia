@@ -2,12 +2,11 @@
 
 namespace Modules\TypeTransfer\Repositories;
 
-use App\Http\Repositories\BaseRepository;
 use Modules\TypeTransfer\Entities\TypeTransfer;
 use App\Http\Repositories\Interfaces\BaseRepositoryInterface;
 use Modules\TypeTransfer\Repositories\Interfaces\TypeTransferRepositoryInterface;
 
-class TypeTransferRepository extends BaseRepository implements TypeTransferRepositoryInterface
+class TypeTransferRepository implements TypeTransferRepositoryInterface
 {
     protected $repository;
 
@@ -22,9 +21,9 @@ class TypeTransferRepository extends BaseRepository implements TypeTransferRepos
         return $this->repository->all();
     }
 
-    public function findByUuid($uuid)
+    public function find($id)
     {
-        return $this->repository->findByUuid($uuid);
+        return $this->repository->find($id);
     }
 
     public function create(array $typeTransfer)

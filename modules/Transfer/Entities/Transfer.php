@@ -9,24 +9,24 @@ class Transfer extends Model
 {
     public $incrementing = false;
 
-    protected $table        = 'Transfers';
+    protected $table        = 'transfers';
     protected $primaryKey   = 'id';
     public $fillable = [
         'id',
-        'payer_id',
-        'payee_id',
+        'account_payer_id',
+        'account_payee_id',
         'value',
         'type_transfer_id'
     ];
 
     public function payer()
     {
-        return $this->hasOne(Account::class, 'id', 'payer_id');
+        return $this->hasOne(Account::class, 'id', 'account_payer_id');
     }
 
     public function payee()
     {
-        return $this->hasOne(Account::class, 'id', 'payee_id');
+        return $this->hasOne(Account::class, 'id', 'account_payee_id');
     }
 
     public function typeTransfer()

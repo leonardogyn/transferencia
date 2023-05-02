@@ -2,7 +2,7 @@
 
 namespace Modules\User\Entities;
 
-use App\Http\Entities\TypeUser;
+use Modules\TypeUser\Entities\TypeUsers;
 use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
@@ -22,6 +22,6 @@ class User extends Model
 
     public function typeUser()
     {
-        return $this->hasOne(TypeUser::class, 'id', 'type_user_id');
+        return $this->hasOne(TypeUsers::class, 'id', 'type_user_id');
     }
 }

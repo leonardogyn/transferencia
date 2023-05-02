@@ -20,6 +20,11 @@ class TypeUsersService implements TypeUsersServiceInterface
         return $this->typeUserRepository->all();
     }
 
+    public function find($id)
+    {
+        return $this->typeUserRepository->find($id);
+    }
+
     public function create(array $typeUser)
     {
         return $this->typeUserRepository->create($typeUser);

@@ -4,9 +4,23 @@ namespace Modules\Account\Request;
 
 use Modules\Account\Rule\ExcludeAccountRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Modules\Account\Rule\AccountRule;
+use Modules\User\Services\Interfaces\UserServiceInterface;
 
 class AccountRequest extends FormRequest
 {
+    protected $service;
+
+    /**
+     * Create a new rule instance.
+     *
+     * @return void
+     */
+    public function __construct(UserServiceInterface $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -56,6 +70,7 @@ class AccountRequest extends FormRequest
                 'required',
                 'unique:accounts,user_id,NULL,user_id',
                 'max:36',
+                new AccountRule($this->service)
             ],
         ];
 
@@ -134,7 +149,7 @@ class AccountRequest extends FormRequest
             'balance.max'               => 'O campo Saldo é maior que o permitido',
             'user_id.required'          => 'O campo Identificador do Usuário é obrigatório',
             'id.unique'                 => 'O Identificador utilizado já está em uso',
-            'client_id.unique'          => 'O Usuário já possui uma conta',
+            'user_id.unique'            => 'O Usuário já possui uma conta',
         ];
     }
 }

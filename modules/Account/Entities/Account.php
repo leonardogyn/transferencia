@@ -3,13 +3,13 @@
 namespace Modules\Account\Entities;
 
 use Illuminate\Database\Eloquent\Model;
-use Modules\Client\Entities\User;
+use Modules\User\Entities\User;
 
 class Account extends Model
 {
     public $incrementing = false;
 
-    protected $table        = 'Accounts';
+    protected $table        = 'accounts';
     protected $primaryKey   = 'id';
     public $fillable = [
         'id',

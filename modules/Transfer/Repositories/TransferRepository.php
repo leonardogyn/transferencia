@@ -2,13 +2,11 @@
 
 namespace Modules\Transfer\Repositories;
 
-use App\Http\Repositories\BaseRepository;
-
 use App\Http\Repositories\Interfaces\BaseRepositoryInterface;
 use Modules\Transfer\Entities\Transfer;
 use Modules\Transfer\Repositories\Interfaces\TransferRepositoryInterface;
 
-class TransferRepository extends BaseRepository implements TransferRepositoryInterface
+class TransferRepository implements TransferRepositoryInterface
 {
     protected $repository;
 
@@ -23,9 +21,9 @@ class TransferRepository extends BaseRepository implements TransferRepositoryInt
         return $this->repository->all();
     }
 
-    public function findByUuid($uuid)
+    public function find($id, $param = null)
     {
-        return $this->repository->findByUuid($uuid);
+        return $this->repository->find($id, $param = null);
     }
 
     public function create(array $transfer)

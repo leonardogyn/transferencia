@@ -8,7 +8,7 @@ use App\Http\Repositories\Interfaces\BaseRepositoryInterface;
 use Modules\User\Entities\User;
 use Modules\User\Repositories\Interfaces\UserRepositoryInterface;
 
-class UserRepository extends BaseRepository implements UserRepositoryInterface
+class UserRepository implements UserRepositoryInterface
 {
     protected $repository;
 
@@ -23,9 +23,9 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         return $this->repository->all();
     }
 
-    public function findByUuid($uuid)
+    public function find($id)
     {
-        return $this->repository->findByUuid($uuid);
+        return $this->repository->find($id);
     }
 
     public function create(array $user)

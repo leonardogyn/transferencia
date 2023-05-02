@@ -20,6 +20,11 @@ class UserService implements UserServiceInterface
         return $this->userRepository->all();
     }
 
+    public function find($id)
+    {
+        return $this->userRepository->find($id);
+    }
+
     public function create(array $user)
     {
         return $this->userRepository->create($user);

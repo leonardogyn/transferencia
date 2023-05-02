@@ -20,6 +20,11 @@ class TypeTransferService implements TypeTransferServiceInterface
         return $this->typeTransferRepository->all();
     }
 
+    public function find($id)
+    {
+        return $this->typeTransferRepository->find($id);
+    }
+
     public function create(array $typeTransfer)
     {
         return $this->typeTransferRepository->create($typeTransfer);

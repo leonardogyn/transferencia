@@ -8,7 +8,7 @@ use App\Http\Repositories\Interfaces\BaseRepositoryInterface;
 use Modules\Account\Entities\Account;
 use Modules\Account\Repositories\Interfaces\AccountRepositoryInterface;
 
-class AccountRepository extends BaseRepository implements AccountRepositoryInterface
+class AccountRepository implements AccountRepositoryInterface
 {
     protected $repository;
 
@@ -23,9 +23,9 @@ class AccountRepository extends BaseRepository implements AccountRepositoryInter
         return $this->repository->all();
     }
 
-    public function findByUuid($uuid)
+    public function find($id, $param = null)
     {
-        return $this->repository->findByUuid($uuid);
+        return $this->repository->find($id, $param);
     }
 
     public function create(array $account)
