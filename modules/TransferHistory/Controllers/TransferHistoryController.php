@@ -1,17 +1,17 @@
 <?php
 
-namespace Modules\TypeTransfer\Controllers;
+namespace Modules\TransferHistory\Controllers;
 
 use App\Http\Controllers\Controller;
-use Modules\TypeTransfer\Services\Interfaces\TypeTransferServiceInterface;
-use Modules\TypeTransfer\Request\TypeTransferRequest;
+use Modules\TransferHistory\Services\Interfaces\TransferHistoryServiceInterface;
+use Modules\TransferHistory\Request\TransferHistoryRequest;
 use Exception;
 
-class TypeTransferController extends Controller
+class TransferHistoryController extends Controller
 {
     protected $service;
 
-    public function __construct(TypeTransferServiceInterface $service)
+    public function __construct(TransferHistoryServiceInterface $service)
     {
         $this->service = $service;
     }
@@ -21,7 +21,7 @@ class TypeTransferController extends Controller
         return $this->service->list();
     }
 
-    public function create(TypeTransferRequest $request)
+    public function create(TransferHistoryRequest $request)
     {
         try {
             return $this->service->create($request->validated());

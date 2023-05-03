@@ -30,4 +30,9 @@ class TransferRepository implements TransferRepositoryInterface
     {
         return $this->repository->create($transfer);
     }
+
+    public function update($entity)
+    {
+        return $this->repository->update($entity);
+    }
 }

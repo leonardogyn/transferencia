@@ -1,26 +1,12 @@
 <?php
 
-namespace Modules\Account\Request;
+namespace Modules\TransferHistory\Request;
 
-use Modules\Account\Rule\ExcludeAccountRule;
+use Modules\TransferHistory\Rule\ExcludeTransferHistoryRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Modules\Account\Rule\AccountRule;
-use Modules\User\Services\Interfaces\UserServiceInterface;
 
-class AccountRequest extends FormRequest
+class TransferHistoryRequest extends FormRequest
 {
-    protected $service;
-
-    /**
-     * Create a new rule instance.
-     *
-     * @return void
-     */
-    public function __construct(UserServiceInterface $service)
-    {
-        $this->service = $service;
-    }
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -29,18 +15,6 @@ class AccountRequest extends FormRequest
     public function authorize()
     {
         return true;
-    }
-
-    public function prepareForValidation(): void
-    {
-        $balance = $this->balance;
-        if (mb_strpos($balance, ',') == false) {
-            $balance = floatval($this->balance) * 100;
-        }
-
-        $this->merge([
-            'balance' => str_replace([',', '.'], '', $balance) / 100,
-        ]);
     }
 
     /**
@@ -57,20 +31,43 @@ class AccountRequest extends FormRequest
         $rules_default = [
             'id' => [
                 'required',
-                'unique:accounts,id,NULL,id',
+                'unique:transfers_histories,id,NULL,id',
                 'max:36'
             ],
-            'balance' => [
+            'transfer_id' => [
+                'required',
+                'unique:transfers_histories,transfer_id,NULL,transfer_id',
+                'max:36',
+            ],
+            'user_id' => [
+                'required',
+                'max:36',
+            ],
+            'account_id' => [
+                'required',
+                'max:36',
+            ],
+            'flag_transfer' => [
+                'required',
+                'max:1',
+            ],
+            'value_transfer' => [
                 'required',
                 'min:0',
                 'gte:0',
                 'max:9999999',
             ],
-            'user_id' => [
+            'value_old' => [
                 'required',
-                'unique:accounts,user_id,NULL,user_id',
-                'max:36',
-                new AccountRule($this->service)
+                'min:0',
+                'gte:0',
+                'max:9999999',
+            ],
+            'value_new' => [
+                'required',
+                'min:0',
+                'gte:0',
+                'max:9999999',
             ],
         ];
 
@@ -83,12 +80,14 @@ class AccountRequest extends FormRequest
             $rules_update = [
                 'id' => [
                     'required',
-                    'unique:accounts,id,' . $this->id . ',id',
+                    'unique:transfers_histories,id,' . $this->id . ',id',
+                    'string',
                     'max:36'
                 ],
-                'user_id' => [
+                'transfer_id' => [
                     'required',
-                    'unique:accounts,user_id,' . $this->user_id . ',user_id',
+                    'unique:transfers_histories,transfer_id,' . $this->transfer_id . ',transfer_id',
+                    'string',
                     'max:36',
                 ],
             ];
@@ -99,7 +98,7 @@ class AccountRequest extends FormRequest
         elseif ($this->route()->getActionMethod() == 'delete') {
             // Regras de exclusão
             $rules_destroy = [
-                'id' => new ExcludeAccountRule(),
+                'id' => new ExcludeTransferHistoryRule(),
             ];
 
             return $rules_destroy;
@@ -128,8 +127,13 @@ class AccountRequest extends FormRequest
     {
         $result = [
             'id'                => 'Identificador',
-            'balance'           => 'Saldo',
+            'transfer_id'       => 'Identificador da Transferência',
             'user_id'           => 'Identificador do Usuário',
+            'account_id'        => 'Identificador da Conta',
+            'flag_transfer'     => 'Tipo da Transferência',
+            'value_transfer'    => 'Valor Transferido',
+            'value_old'         => 'Saldo anterior da Conta',
+            'valeu_new'         => 'Saldo novo na Conta',
         ];
 
         return $result;
@@ -144,12 +148,15 @@ class AccountRequest extends FormRequest
     {
         return [
             'id.required'               => 'O campo Identificador é obrigatório',
-            'balance.required'          => 'O campo Saldo é obrigatório',
-            'balance.gte'               => 'O campo Saldo pode ser zero ou acima',
-            'balance.max'               => 'O campo Saldo é maior que o permitido',
+            'transfer_id.required'      => 'O campo Identificador da Transferência é obrigatório',
             'user_id.required'          => 'O campo Identificador do Usuário é obrigatório',
+            'account_id.required'       => 'O campo Identificador da Conta é Obrigatório',
+            'flag_transfer.required'    => 'O campo Tipo da Transferência é Obrigatório',
+            'value_transfer.required'   => 'O campo Valor Transferido é Obrigatório',
+            'value_old.required'        => 'O campo Saldo anterior da Conta é Obrigatório',
+            'valeu_new.required'        => 'O campo Saldo novo na Conta é Obrigatório',
             'id.unique'                 => 'O Identificador utilizado já está em uso',
-            'user_id.unique'            => 'O Usuário já possui uma conta',
+            'transfer_id.unique'        => 'O Identificador da Transferência já está em uso',
         ];
     }
 }

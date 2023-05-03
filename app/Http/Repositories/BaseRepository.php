@@ -99,6 +99,8 @@ class BaseRepository implements BaseRepositoryInterface
     public function create(array $data)
     {
         try {
+            //echo '<PRE>';
+            //print_r($data);
             $this->model->fill($data);
             $this->model->save();
             return $this->model;

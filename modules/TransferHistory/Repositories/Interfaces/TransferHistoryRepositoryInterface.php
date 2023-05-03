@@ -1,8 +1,8 @@
 <?php
 
-namespace Modules\TypeTransfer\Repositories\Interfaces;
+namespace Modules\TransferHistory\Repositories\Interfaces;
 
-interface TypeTransferRepositoryInterface
+interface TransferHistoryRepositoryInterface
 {
     public function all();
     public function find($id);

@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\TypeTransfer\Rule;
+namespace Modules\TransferHistory\Rule;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class ExcludeTypeTransferRule implements Rule
+class ExcludeTransferHistoryRule implements Rule
 {
     /**
      * Create a new rule instance.

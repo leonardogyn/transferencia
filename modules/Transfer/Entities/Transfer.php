@@ -15,8 +15,7 @@ class Transfer extends Model
         'id',
         'account_payer_id',
         'account_payee_id',
-        'value',
-        'type_transfer_id'
+        'value'
     ];
 
     public function payer()
@@ -27,10 +26,5 @@ class Transfer extends Model
     public function payee()
     {
         return $this->hasOne(Account::class, 'id', 'account_payee_id');
-    }
-
-    public function typeTransfer()
-    {
-        return $this->hasOne(TypeTransfer::class, 'id', 'type_transfer_id');
     }
 }

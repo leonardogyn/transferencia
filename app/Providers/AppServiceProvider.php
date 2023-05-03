@@ -30,13 +30,13 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(\Modules\Account\Repositories\Interfaces\AccountRepositoryInterface::class, \Modules\Account\Repositories\AccountRepository::class);
         $this->app->bind(\Modules\Account\Services\Interfaces\AccountServiceInterface::class, \Modules\Account\Services\AccountService::class);
 
-        // TypeTransfer
-        $this->app->bind(\Modules\TypeTransfer\Repositories\Interfaces\TypeTransferRepositoryInterface::class, \Modules\TypeTransfer\Repositories\TypeTransferRepository::class);
-        $this->app->bind(\Modules\TypeTransfer\Services\Interfaces\TypeTransferServiceInterface::class, \Modules\TypeTransfer\Services\TypeTransferService::class);
-
         // Transfer
         $this->app->bind(\Modules\Transfer\Repositories\Interfaces\TransferRepositoryInterface::class, \Modules\Transfer\Repositories\TransferRepository::class);
         $this->app->bind(\Modules\Transfer\Services\Interfaces\TransferServiceInterface::class, \Modules\Transfer\Services\TransferService::class);
+
+        // TransferHistory
+        $this->app->bind(\Modules\TransferHistory\Repositories\Interfaces\TransferHistoryRepositoryInterface::class, \Modules\TransferHistory\Repositories\TransferHistoryRepository::class);
+        $this->app->bind(\Modules\TransferHistory\Services\Interfaces\TransferHistoryServiceInterface::class, \Modules\TransferHistory\Services\TransferHistoryService::class);
     }
 
     /**

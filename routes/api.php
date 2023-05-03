@@ -14,18 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+//Route::middleware('auth:api')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
 
 Route::prefix('/type-user')->group(function () {
     Route::get('/list', '\Modules\TypeUser\Controllers\TypeUsersController@list')->name('listTypeUser');
     Route::post('/create', '\Modules\TypeUser\Controllers\TypeUsersController@create')->name('createTypeUser');
-});
-
-Route::prefix('/type-transfer')->group(function () {
-    Route::get('/list', '\Modules\TypeTransfer\Controllers\TypeTransferController@list')->name('listTypeTransfer');
-    Route::post('/create', '\Modules\TypeTransfer\Controllers\TypeTransferController@create')->name('createTypeTransfer');
 });
 
 Route::prefix('/user')->group(function () {
@@ -41,4 +36,9 @@ Route::prefix('/account')->group(function () {
 Route::prefix('/transfer')->group(function () {
     Route::get('/list', '\Modules\Transfer\Controllers\TransferController@list')->name('listTransfer');
     Route::post('/create', '\Modules\Transfer\Controllers\TransferController@create')->name('createTransfer');
+});
+
+Route::prefix('/transfer-history')->group(function () {
+    Route::get('/list', '\Modules\TransferHistory\Controllers\TransferHistoryController@list')->name('listTransferHistory');
+    Route::post('/create', '\Modules\TransferHistory\Controllers\TransferHistoryController@create')->name('createTransferHistory');
 });

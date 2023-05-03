@@ -8,22 +8,19 @@ use Modules\Account\Services\Interfaces\AccountServiceInterface;
 use Modules\Transfer\Rule\TransferPayeeRule;
 use Modules\Transfer\Rule\TransferPayerRule;
 use Modules\Transfer\Rule\TransferRule;
-use Modules\TypeTransfer\Services\Interfaces\TypeTransferServiceInterface;
 
 class TransferRequest extends FormRequest
 {
     protected $serviceAccount;
-    protected $serviceTypeTransfer;
 
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct(AccountServiceInterface $serviceAccount, TypeTransferServiceInterface $serviceTypeTransfer)
+    public function __construct(AccountServiceInterface $serviceAccount)
     {
         $this->serviceAccount = $serviceAccount;
-        $this->serviceTypeTransfer = $serviceTypeTransfer;
     }
 
     /**
@@ -81,11 +78,6 @@ class TransferRequest extends FormRequest
                 'gt:0',
                 'max:9999999',
             ],
-            'type_transfer_id' => [
-                'required',
-                'max:36',
-                new TransferRule($this->serviceTypeTransfer)
-            ],
 
         ];
 
@@ -141,7 +133,6 @@ class TransferRequest extends FormRequest
             'account_payer_id'      => 'Conta Pagadora',
             'account_payee_id'     => 'Conta Beneficiária',
             'value'                 => 'Saldo',
-            'type_transfer_id'      => 'Identificador de Transferência',
         ];
 
         return $result;
@@ -161,7 +152,6 @@ class TransferRequest extends FormRequest
             'value.required'                => 'O campo Saldo é obrigatório',
             'value.gt'                      => 'O campo Valor deve ser maior que zero',
             'value.max'                     => 'O campo Valor é maior que o permitido',
-            'type_transfer_id.required'     => 'O campo Identificador do Usuário é obrigatório',
         ];
     }
 }
