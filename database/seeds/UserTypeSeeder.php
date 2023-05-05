@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Modules\UserType\Entities\UserType;
 use Ramsey\Uuid\Uuid;
 
 class UserTypeSeeder extends Seeder
@@ -29,5 +30,6 @@ class UserTypeSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
+        //UserType::factory(1)->create();
     }
 }

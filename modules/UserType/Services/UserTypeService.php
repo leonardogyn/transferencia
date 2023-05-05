@@ -5,6 +5,7 @@ namespace Modules\UserType\Services;
 use Modules\UserType\Repositories\Interfaces\UserTypeRepositoryInterface;
 use Modules\UserType\Services\Interfaces\UserTypeServiceInterface;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Str;
 
 class UserTypeService implements UserTypeServiceInterface
 {
@@ -29,6 +30,7 @@ class UserTypeService implements UserTypeServiceInterface
     public function create(array $userType)
     {
         $userType['id'] = Uuid::uuid4()->toString();
+        $userType['flag'] = Str::upper($userType['flag']);
         return $this->userTypeRepository->create($userType);
     }
 
