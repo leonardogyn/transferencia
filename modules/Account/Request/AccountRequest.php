@@ -55,11 +55,6 @@ class AccountRequest extends FormRequest
 
         // Regras de criação e edição
         $rules_default = [
-            'id' => [
-                'required',
-                'unique:accounts,id,NULL,id',
-                'max:36'
-            ],
             'balance' => [
                 'required',
                 'min:0',

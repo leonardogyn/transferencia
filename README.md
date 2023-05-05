@@ -24,6 +24,12 @@ Obs:
  - Acessar o diretório  "reports" e abrir o index.html no navegador de sua escolha. 
 
 
+## Documentação - Swagger API
+
+ - [Swagger API](http://localhost/api/)
+
+
+
 ## Sobre o Laravel
 
 Laravel é um framework de aplicações web com sintaxe expressiva e elegante. Acreditamos que o desenvolvimento deve ser uma experiência agradável e criativa para ser verdadeiramente gratificante. Ele facilita o desenvolvimento facilitando tarefas comuns usadas em muitos projetos da web

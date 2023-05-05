@@ -19,6 +19,7 @@ class UserTypeSeeder extends Seeder
             'name' => 'Comum',
             'flag' => 'C',
             'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
 
         DB::table('user_types')->updateOrInsert([
@@ -26,6 +27,7 @@ class UserTypeSeeder extends Seeder
             'name' => 'Lojista',
             'flag' => 'L',
             'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
     }
 }

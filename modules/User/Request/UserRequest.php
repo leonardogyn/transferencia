@@ -49,11 +49,6 @@ class UserRequest extends FormRequest
 
         // Regras de criação e edição
         $rules_default = [
-            'id' => [
-                'required',
-                'unique:users,id,NULL,id',
-                'max:36'
-            ],
             'name' => [
                 'required',
                 'max:100',

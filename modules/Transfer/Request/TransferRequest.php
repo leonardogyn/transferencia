@@ -57,11 +57,6 @@ class TransferRequest extends FormRequest
 
         // Regras de criação e edição
         $rules_default = [
-            'id' => [
-                'required',
-                'unique:transfers,id,NULL,id',
-                'max:36'
-            ],
             'account_payer_id' => [
                 'required',
                 'max:36',

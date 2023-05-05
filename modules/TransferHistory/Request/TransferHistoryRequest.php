@@ -29,11 +29,6 @@ class TransferHistoryRequest extends FormRequest
 
         // Regras de criação e edição
         $rules_default = [
-            'id' => [
-                'required',
-                'unique:transfers_histories,id,NULL,id',
-                'max:36'
-            ],
             'transfer_id' => [
                 'required',
                 'unique:transfers_histories,transfer_id,NULL,transfer_id',

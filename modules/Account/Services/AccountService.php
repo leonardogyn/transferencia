@@ -4,6 +4,7 @@ namespace Modules\Account\Services;
 
 use Modules\Account\Repositories\Interfaces\AccountRepositoryInterface;
 use Modules\Account\Services\Interfaces\AccountServiceInterface;
+use Ramsey\Uuid\Uuid;
 
 class AccountService implements AccountServiceInterface
 {
@@ -27,6 +28,7 @@ class AccountService implements AccountServiceInterface
 
     public function create(array $account)
     {
+        $account['id'] = Uuid::uuid4()->toString();
         return $this->accountRepository->create($account);
     }
 

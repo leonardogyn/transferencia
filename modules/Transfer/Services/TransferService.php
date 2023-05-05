@@ -67,6 +67,7 @@ class TransferService implements TransferServiceInterface
                 return response()->json(['error' => ['message' => ['transfer' => 'A transferência não foi autorizada']]], 403);
             }
 
+            $transfer['id'] = Uuid::uuid4()->toString();
             $createdTransfer = $this->transferRepository->create($transfer);
 
             // Perform debit transaction

@@ -4,6 +4,8 @@ namespace Modules\User\Services;
 
 use Modules\User\Repositories\Interfaces\UserRepositoryInterface;
 use Modules\User\Services\Interfaces\UserServiceInterface;
+use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\Hash;
 
 class UserService implements UserServiceInterface
 {
@@ -27,6 +29,8 @@ class UserService implements UserServiceInterface
 
     public function create(array $user)
     {
+        $user['id'] = Uuid::uuid4()->toString();
+        $user['password'] = Hash::make($user['password']);
         return $this->userRepository->create($user);
     }
 

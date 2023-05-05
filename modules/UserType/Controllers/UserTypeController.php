@@ -7,6 +7,9 @@ use Modules\UserType\Request\UserTypeRequest;
 use Modules\UserType\Services\Interfaces\UserTypeServiceInterface;
 use Exception;
 
+/**
+ * @OA\Info(title="Transfer", version="0.1")
+ */
 class UserTypeController extends Controller
 {
     protected $service;
@@ -16,11 +19,48 @@ class UserTypeController extends Controller
         $this->service = $service;
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/user-type/list",
+     *     tags={"UserType"},
+     *     summary="Listar os Tipos de Usuários",
+     *     @OA\Response(response="200", description="An example resource"),
+     *     @OA\Response(response="404", description="Not Found"),
+     *     @OA\MediaType(mediaType="application/json")
+     * )
+     */
     public function list()
     {
         return $this->service->list();
     }
 
+    /**
+     * @OA\Post(
+     ** path="/api/user-type/create",
+     *   tags={"UserType"},
+     *   summary="Criar Tipo do Usuário",
+     *   @OA\Parameter(
+     *      name="name",
+     *      in="query",
+     *      required=true,
+     *      @OA\Schema(type="string")
+     *   ),
+     *   @OA\Parameter(
+     *      name="flag",
+     *      in="query",
+     *      required=true,
+     *      @OA\Schema(type="string",maxLength=1)
+     *   ),
+     *   @OA\Response(response=201,description="Created"),
+     *   @OA\Response(response=401,description="Unauthenticated"),
+     *   @OA\Response(response=400,description="Bad Request"),
+     *   @OA\Response(response=404,description="Not found"),
+     *   @OA\Response(response=403,description="Forbidden"),
+     *   @OA\Response(response=422,description="Validate Error"),
+     *   @OA\Response(response=500,description="Internal Server Error"),
+     *   @OA\MediaType(mediaType="application/json")
+     *)
+     **/
     public function create(UserTypeRequest $request)
     {
         try {
