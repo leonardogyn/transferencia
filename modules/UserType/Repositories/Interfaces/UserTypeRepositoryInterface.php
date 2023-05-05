@@ -1,8 +1,8 @@
 <?php
 
-namespace Modules\TypeUser\Repositories\Interfaces;
+namespace Modules\UserType\Repositories\Interfaces;
 
-interface TypeUsersRepositoryInterface
+interface UserTypeRepositoryInterface
 {
     public function all();
     public function find($id);

@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email', 100)->unique();
             $table->string('password', 60);
 
-            $table->foreignUuid('type_user_id')->references('id')->on('type_users');
+            $table->foreignUuid('user_type_id')->references('id')->on('user_types');
 
             $table->timestamps();
         });

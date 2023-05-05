@@ -1,8 +1,8 @@
 <?php
 
-namespace Modules\TypeUser\Services\Interfaces;
+namespace Modules\UserType\Services\Interfaces;
 
-interface TypeUsersServiceInterface
+interface UserTypeServiceInterface
 {
     public function list();
     public function find($id);

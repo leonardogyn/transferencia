@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\TypeUser\Request;
+namespace Modules\UserType\Request;
 
-use Modules\TypeUser\Rule\ExcludeTypeUsersRule;
+use Modules\UserType\Rule\ExcludeUserTypeRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class TypeUsersRequest extends FormRequest
+class UserTypeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -31,17 +31,17 @@ class TypeUsersRequest extends FormRequest
         $rules_default = [
             'id' => [
                 'required',
-                'unique:type_users,id,NULL,id',
+                'unique:user_types,id,NULL,id',
                 'max:36'
             ],
             'name' => [
                 'required',
-                'unique:type_users,name,NULL,name',
+                'unique:user_types,name,NULL,name',
                 'max:100',
             ],
             'flag' => [
                 'required',
-                'unique:type_users,flag,NULL,flag',
+                'unique:user_types,flag,NULL,flag',
                 'max:1',
             ],
         ];
@@ -56,19 +56,19 @@ class TypeUsersRequest extends FormRequest
                 'id' => [
                     'required',
                     'cnpj',
-                    'unique:type_users,id,' . $this->id . ',id',
+                    'unique:user_types,id,' . $this->id . ',id',
                     'string',
                     'max:36'
                 ],
                 'name' => [
                     'required',
-                    'unique:type_users,name,' . $this->name . ',name',
+                    'unique:user_types,name,' . $this->name . ',name',
                     'string',
                     'max:100',
                 ],
                 'flag' => [
                     'required',
-                    'unique:type_users,flag,' . $this->flag . ',flag',
+                    'unique:user_types,flag,' . $this->flag . ',flag',
                     'string',
                     'max:100',
                 ],
@@ -80,7 +80,7 @@ class TypeUsersRequest extends FormRequest
         elseif ($this->route()->getActionMethod() == 'delete') {
             // Regras de exclusão
             $rules_destroy = [
-                'id' => new ExcludeTypeUsersRule(),
+                'id' => new ExcludeUserTypeRule(),
             ];
 
             return $rules_destroy;

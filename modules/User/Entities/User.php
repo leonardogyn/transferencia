@@ -2,7 +2,7 @@
 
 namespace Modules\User\Entities;
 
-use Modules\TypeUser\Entities\TypeUsers;
+use Modules\UserType\Entities\UserType;
 use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
@@ -17,11 +17,11 @@ class User extends Model
         'cpf_cnpj',
         'email',
         'password',
-        'type_user_id'
+        'user_type_id'
     ];
 
-    public function typeUser()
+    public function UserType()
     {
-        return $this->hasOne(TypeUsers::class, 'id', 'type_user_id');
+        return $this->hasOne(UserType::class, 'id', 'user_type_id');
     }
 }

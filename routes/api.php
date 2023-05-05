@@ -18,9 +18,9 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-Route::prefix('/type-user')->group(function () {
-    Route::get('/list', '\Modules\TypeUser\Controllers\TypeUsersController@list')->name('listTypeUser');
-    Route::post('/create', '\Modules\TypeUser\Controllers\TypeUsersController@create')->name('createTypeUser');
+Route::prefix('/user-type')->group(function () {
+    Route::get('/list', '\Modules\UserType\Controllers\UserTypeController@list')->name('listUserType');
+    Route::post('/create', '\Modules\UserType\Controllers\UserTypeController@create')->name('createUserType');
 });
 
 Route::prefix('/user')->group(function () {

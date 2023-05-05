@@ -3,7 +3,7 @@
 namespace Modules\User\Rule;
 
 use Illuminate\Contracts\Validation\Rule;
-use Modules\TypeUser\Services\Interfaces\TypeUsersServiceInterface;
+use Modules\UserType\Services\Interfaces\UserTypeServiceInterface;
 
 class UserRule implements Rule
 {
@@ -14,7 +14,7 @@ class UserRule implements Rule
      *
      * @return void
      */
-    public function __construct(TypeUsersServiceInterface $service)
+    public function __construct(UserTypeServiceInterface $service)
     {
         $this->service = $service;
     }

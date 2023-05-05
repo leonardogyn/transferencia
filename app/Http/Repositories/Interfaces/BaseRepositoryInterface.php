@@ -4,7 +4,6 @@ namespace App\Http\Repositories\Interfaces;
 
 interface BaseRepositoryInterface
 {
-    public function entity($entity);
     public function all();
     public function find($value, $param = null);
     public function findByUuid($uuid);

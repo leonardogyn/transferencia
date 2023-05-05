@@ -2,16 +2,12 @@
 
 namespace App\Http\Repositories;
 
+use Illuminate\Support\Facades\DB;
 use App\Http\Repositories\Interfaces\BaseRepositoryInterface;
 
 class BaseRepository implements BaseRepositoryInterface
 {
     protected $model;
-
-    public function entity($entity)
-    {
-        $this->model = $entity;
-    }
 
     public function all()
     {
@@ -99,11 +95,8 @@ class BaseRepository implements BaseRepositoryInterface
     public function create(array $data)
     {
         try {
-            //echo '<PRE>';
-            //print_r($data);
-            $this->model->fill($data);
-            $this->model->save();
-            return $this->model;
+            $model = $this->model::create($data);
+            return $model;
         } catch (\Exception $exception) {
             report($exception);
             throw $exception;

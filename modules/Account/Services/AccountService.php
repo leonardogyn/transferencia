@@ -30,8 +30,9 @@ class AccountService implements AccountServiceInterface
         return $this->accountRepository->create($account);
     }
 
-    public function update($model, $id)
+    public function update($model)
     {
+        return $this->accountRepository->update($model);
     }
     public function delete($model)
     {

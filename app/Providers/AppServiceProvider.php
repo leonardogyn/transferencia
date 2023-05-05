@@ -18,9 +18,9 @@ class AppServiceProvider extends ServiceProvider
         // Base
         $this->app->bind(BaseRepositoryInterface::class, BaseRepository::class);
 
-        // TypeUser
-        $this->app->bind(\Modules\TypeUser\Repositories\Interfaces\TypeUsersRepositoryInterface::class, \Modules\TypeUser\Repositories\TypeUsersRepository::class);
-        $this->app->bind(\Modules\TypeUser\Services\Interfaces\TypeUsersServiceInterface::class, \Modules\TypeUser\Services\TypeUsersService::class);
+        // UserType
+        $this->app->bind(\Modules\UserType\Repositories\Interfaces\UserTypeRepositoryInterface::class, \Modules\UserType\Repositories\UserTypeRepository::class);
+        $this->app->bind(\Modules\UserType\Services\Interfaces\UserTypeServiceInterface::class, \Modules\UserType\Services\UserTypeService::class);
 
         // User
         $this->app->bind(\Modules\User\Repositories\Interfaces\UserRepositoryInterface::class, \Modules\User\Repositories\UserRepository::class);

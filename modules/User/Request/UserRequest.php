@@ -4,7 +4,7 @@ namespace Modules\User\Request;
 
 use Modules\User\Rule\ExcludeUserRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Modules\TypeUser\Services\Interfaces\TypeUsersServiceInterface;
+use Modules\UserType\Services\Interfaces\UserTypeServiceInterface;
 use Modules\User\Rule\UserRule;
 
 class UserRequest extends FormRequest
@@ -16,7 +16,7 @@ class UserRequest extends FormRequest
      *
      * @return void
      */
-    public function __construct(TypeUsersServiceInterface $service)
+    public function __construct(UserTypeServiceInterface $service)
     {
         $this->service = $service;
     }
@@ -72,7 +72,7 @@ class UserRequest extends FormRequest
                 'required',
                 'max:60',
             ],
-            'type_user_id' => [
+            'user_type_id' => [
                 'required',
                 'max:36',
                 new UserRule($this->service)
@@ -101,7 +101,7 @@ class UserRequest extends FormRequest
                     'unique:users,email,' . $this->email . ',email',
                     'max:1',
                 ],
-                'type_user_id' => [
+                'user_type_id' => [
                     'required',
                     'max:36',
                     new UserRule($this->service)
@@ -147,7 +147,7 @@ class UserRequest extends FormRequest
             'cpf_cnpj'          => 'CPF/CNPJ',
             'email'             => 'Email',
             'password'          => 'Senha',
-            'type_user_id'      => 'Tipo do Usuário',
+            'user_type_id'      => 'Tipo do Usuário',
         ];
 
         return $result;
@@ -166,7 +166,7 @@ class UserRequest extends FormRequest
             'cpf_cnpj.required'         => 'O campo CPF/CNPJ é obrigatório',
             'email.required'            => 'O campo Email é obrigatório',
             'password.required'         => 'O campo Senha é obrigatório',
-            'type_user_id.required'     => 'O campo Tipo do Usuário é obrigatório',
+            'user_type_id.required'     => 'O campo Tipo do Usuário é obrigatório',
             'id.unique'                 => 'O Identificador utilizado já está em uso',
             'cpf_cnpj.unique'           => 'O CPF/CNPJ utilizado já está em uso',
             'email.unique'              => 'O Email utilizado já está em uso',

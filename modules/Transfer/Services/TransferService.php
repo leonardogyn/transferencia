@@ -2,6 +2,7 @@
 
 namespace Modules\Transfer\Services;
 
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Modules\Account\Services\Interfaces\AccountServiceInterface;
 use Modules\Transfer\Repositories\Interfaces\TransferRepositoryInterface;
@@ -44,45 +45,52 @@ class TransferService implements TransferServiceInterface
         try {
             DB::beginTransaction();
 
-            $accountPayer = $this->accountService->find($transfer['account_payer_id'], ['with' => 'user.typeUser']);
+            $accountPayer = $this->accountService->find($transfer['account_payer_id'], ['with' => 'user.userType']);
 
             // shopkeeper don't send money
-            if(Config::get('constants.userDeniedTransfer.shopkeeper') == $accountPayer->user->typeUser->flag) {
-                return response()->json(['message' => 'Usuário não permitido para efetuar esta transfência'], 422);
+            if(Config::get('constants.userDeniedTransfer.shopkeeper') == $accountPayer->user->userType->flag) {
+                return response()->json(['error' => ['message' => ['account_payer_id' => 'Usuário não permitido para efetuar esta transfência']]], 422);
             }
+
+            // Payer and Payee must be different
+            //if($accountPayee == $accountPayer) {
+            //    return response()->json(['error' => ['message' => ['account_payer_id' => 'O Pagador e beneficiário devem ser diferente']]], 422);
+            //}
 
             // Check - Have account Balance
             if(!$this->checkHaveAccountBalance($accountPayer,$transfer)) {
-                return response()->json(['message' => 'Usuário não possui saldo na conta para esta transferência'], 422);
+                return response()->json(['error' => ['message' => ['account_payer_id' => 'Usuário não possui saldo na conta para esta transferência']]], 422);
             }
 
             // Check - Credit Authorizer
             if(!$this->creditAuthorizer()) {
-                return response()->json(['message' => 'A transferência não foi autorizada'], 403);
+                return response()->json(['error' => ['message' => ['transfer' => 'A transferência não foi autorizada']]], 403);
             }
 
             $createdTransfer = $this->transferRepository->create($transfer);
 
             // Perform debit transaction
-            if(!$this->performCreditTransaction($createdTransfer->id,$createdTransfer->value,$accountPayer,Config::get('constants.transferTypes.debit'))) {
-                return response()->json(['message' => 'Falha ao efetuar o histórico de Débito da transação'], 500);
+            if(!$arrayDebit = $this->performTransaction($createdTransfer->id,$createdTransfer->value,$accountPayer,Config::get('constants.transferTypes.debit'))) {
+                return response()->json(['error' => ['message' => ['transfer_history_debit' => 'Falha ao efetuar o histórico de Débito da transação']]], 500);
             }
 
-            $accountPayee = $this->accountService->find($transfer['account_payee_id'], ['with' => 'user.typeUser']);
+            $accountPayee = $this->accountService->find($transfer['account_payee_id'], ['with' => 'user.userType']);
 
             // Perform credit transaction
-            if(!$this->performCreditTransaction($createdTransfer->id,$createdTransfer->value,$accountPayee,Config::get('constants.transferTypes.credit'))) {
-                return response()->json(['message' => 'Falha ao efetuar o histórico de Crédito da transação'], 500);
+            if(!$arrayCredit = $this->performTransaction($createdTransfer->id,$createdTransfer->value,$accountPayee,Config::get('constants.transferTypes.credit'))) {
+                return response()->json(['error' => ['message' => ['transfer_history_credit' => 'Falha ao efetuar o histórico de Crédito da transação']]], 500);
             }
 
             DB::commit();
 
-            
+            // Trasaction Credit - push notification
+            $this->pushNotification($arrayCredit);
+
             return $createdTransfer;
-        } catch (\Throwable $ex) {
+        } catch (Exception $ex) {
             report($ex);
             DB::rollBack();
-            return response()->json(['message' => 'Falha ao efetuar a transferência'], 500);
+            return response()->json(['error' => ['message' => ['transfer' => 'Falha ao efetuar a transferência']]], 500);
         }
     }
 
@@ -94,52 +102,47 @@ class TransferService implements TransferServiceInterface
         try {
             $response = Http::get(Config::get('constants.urlCreditAuthorizer'));
             return $response->successful();
-        } catch (\RequestException $ex) {
+        } catch (RequestException $ex) {
             report($ex);
             return false;
         }
     }
 
-    private function performCreditTransaction($transferId, $transferValue, $account,$flagTransfer) {
+    private function performTransaction($transferId, $transferValue, $account,$flagTransfer) {
         try {
-            $constFlagCredit = Config::get('constants.transferTypes.credit');
             $accountBalance = $account->balance;
-            if($flagTransfer===$constFlagCredit) {
+            if($flagTransfer===Config::get('constants.transferTypes.credit')) {
                 $accountBalanceNew = $accountBalance + $transferValue;
             } else {
                 $accountBalanceNew = $accountBalance - $transferValue;
             }
             $account->balance = $accountBalanceNew;
-            $newAccount = $this->update($account);
+
+            $accountUserId = $account->user->id;
+            $newAccount = $this->accountService->update($account);
 
             $transferHistory = [
                 'id' => Uuid::uuid4()->toString(),
                 'transfer_id' => $transferId,
-                'user_id' => $newAccount->user->id,
+                'user_id' => $accountUserId,
                 'account_id' => $newAccount->id,
                 'flag_transfer' => $flagTransfer,
                 'value_transfer' => $transferValue,
                 'value_old' => $accountBalance,
                 'value_new' => $accountBalanceNew
             ];
-            $this->transferHistoryService->create($transferHistory);
-            
-            // Trasaction Credit - push notification
-            if($flagTransfer===$constFlagCredit) {
-                $this->pushNotification();
-            }
-            return true;
+            return $this->transferHistoryService->create($transferHistory);
         } catch (\Exception $ex) {
             report($ex);
             return false;
         }
     }
 
-    private function pushNotification() {
+    private function pushNotification($arrayCredit) {
         try {
-            $response = Http::get(Config::get('constants.urlNotify'));
+            $response = Http::get(Config::get('constants.urlNotify'),json_decode($arrayCredit,true));
             return $response->successful();
-        } catch (\RequestException $ex) {
+        } catch (RequestException $ex) {
             report($ex);
             return false;
         }

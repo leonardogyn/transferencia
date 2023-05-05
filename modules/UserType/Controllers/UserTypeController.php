@@ -1,17 +1,17 @@
 <?php
 
-namespace Modules\TypeUser\Controllers;
+namespace Modules\UserType\Controllers;
 
 use App\Http\Controllers\Controller;
-use Modules\TypeUser\Request\TypeUsersRequest;
-use Modules\TypeUser\Services\Interfaces\TypeUsersServiceInterface;
+use Modules\UserType\Request\UserTypeRequest;
+use Modules\UserType\Services\Interfaces\UserTypeServiceInterface;
 use Exception;
 
-class TypeUsersController extends Controller
+class UserTypeController extends Controller
 {
     protected $service;
 
-    public function __construct(TypeUsersServiceInterface $service)
+    public function __construct(UserTypeServiceInterface $service)
     {
         $this->service = $service;
     }
@@ -21,7 +21,7 @@ class TypeUsersController extends Controller
         return $this->service->list();
     }
 
-    public function create(TypeUsersRequest $request)
+    public function create(UserTypeRequest $request)
     {
         try {
             return $this->service->create($request->validated());

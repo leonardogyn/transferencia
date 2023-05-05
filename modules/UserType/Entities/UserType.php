@@ -1,14 +1,14 @@
 <?php
 
-namespace Modules\TypeUser\Entities;
+namespace Modules\UserType\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TypeUsers extends Model
+class UserType extends Model
 {
     public $incrementing = false;
 
-    protected $table        = 'type_users';
+    protected $table        = 'user_types';
     protected $primaryKey   = 'id';
     public $fillable = [
         'id',

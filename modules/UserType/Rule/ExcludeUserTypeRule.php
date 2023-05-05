@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\TypeUser\Rule;
+namespace Modules\UserType\Rule;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class ExcludeTypeUsersRule implements Rule
+class ExcludeUserTypeRule implements Rule
 {
     /**
      * Create a new rule instance.
