@@ -5,9 +5,6 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\UserType\Entities\UserType;
 use Tests\TestCase;
-use Carbon\Carbon;
-use Modules\UserType\Repositories\UserTypeRepository;
-use Ramsey\Uuid\Uuid;
 
 class UserTypeTest extends TestCase
 {
@@ -32,11 +29,7 @@ class UserTypeTest extends TestCase
         $response = $this->postJson(route('createUserType'),$userType->toArray());
 
         $response->assertCreated();
-/*
-        $this->assertDatabaseHas(
-            'user_types',
-            $userType
-        );
-*/
+        $response->assertStatus(201);
+
     }
 }
