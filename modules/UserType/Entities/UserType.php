@@ -4,6 +4,7 @@ namespace Modules\UserType\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory ;
+use Modules\User\Entities\User;
 
 class UserType extends Model
 {
@@ -16,4 +17,9 @@ class UserType extends Model
         'name',
         'flag'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

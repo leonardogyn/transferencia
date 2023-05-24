@@ -159,6 +159,7 @@ class UserRequest extends FormRequest
             'id.required'               => 'O campo Identificador é obrigatório',
             'name.required'             => 'O campo Nome é obrigatório',
             'cpf_cnpj.required'         => 'O campo CPF/CNPJ é obrigatório',
+            'cpf_cnpj.max'              => 'O campo CPF/CNPJ excedeu o tamanho máximo de caracteres',
             'email.required'            => 'O campo Email é obrigatório',
             'password.required'         => 'O campo Senha é obrigatório',
             'user_type_id.required'     => 'O campo Tipo do Usuário é obrigatório',

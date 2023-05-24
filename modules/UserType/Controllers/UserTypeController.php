@@ -26,12 +26,18 @@ class UserTypeController extends Controller
      *     summary="Listar os Tipos de Usuários",
      *     @OA\Response(response="200", description="An example resource"),
      *     @OA\Response(response="404", description="Not Found"),
+     *     @OA\Response(response=500,description="Internal Server Error"),
      *     @OA\MediaType(mediaType="application/json")
      * )
      */
     public function list()
     {
-        return $this->service->list();
+        try {
+            return $this->service->list();
+        } catch (Exception $ex) {
+            report($ex);
+            return response()->json(['message' => 'Falha ao efetuar a listagem'], 500);
+        }
     }
 
     /**
@@ -68,6 +74,39 @@ class UserTypeController extends Controller
         } catch (Exception $ex) {
             report($ex);
             return response()->json(['message' => 'Falha ao efetuar o cadastro'], 500);
+        }
+    }
+
+    /**
+     * @OA\Delete(
+     ** path="/api/user-type/delete",
+     *   tags={"UserType"},
+     *   summary="Excluir Tipo do Usuário",
+     *   @OA\Parameter(
+     *      name="id",
+     *      in="query",
+     *      required=true,
+     *      @OA\Schema(type="string")
+     *   ),
+     *   @OA\Response(response=201,description="Created"),
+     *   @OA\Response(response=401,description="Unauthenticated"),
+     *   @OA\Response(response=400,description="Bad Request"),
+     *   @OA\Response(response=404,description="Not found"),
+     *   @OA\Response(response=403,description="Forbidden"),
+     *   @OA\Response(response=422,description="Validate Error"),
+     *   @OA\Response(response=500,description="Internal Server Error"),
+     *   @OA\MediaType(mediaType="application/json")
+     *)
+     **/
+    public function delete(UserTypeRequest $request)
+    {
+        try {
+            if($this->service->delete($request->validated())) {
+                return response()->json(['message' => 'Excluído com sucesso'], 200);
+            }
+        } catch (Exception $ex) {
+            report($ex);
+            return response()->json(['message' => 'Falha ao efetuar a exclusão'], 500);
         }
     }
 }

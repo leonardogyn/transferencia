@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/user-type')->group(function () {
     Route::get('/list', '\Modules\UserType\Controllers\UserTypeController@list')->name('listUserType');
     Route::post('/create', '\Modules\UserType\Controllers\UserTypeController@create')->name('createUserType');
+    Route::delete('/delete', '\Modules\UserType\Controllers\UserTypeController@delete')->name('deleteUserType');
 });
 
 Route::prefix('/user')->group(function () {

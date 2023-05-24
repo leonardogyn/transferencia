@@ -30,7 +30,12 @@ class UserController extends Controller
      */
     public function list()
     {
-        return $this->service->list();
+        try {
+            return $this->service->list();
+        } catch (Exception $ex) {
+            report($ex);
+            return response()->json(['message' => 'Falha ao efetuar a listagem'], 500);
+        }
     }
 
     /**

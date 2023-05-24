@@ -2,6 +2,9 @@
 
 Seguir os passos abaixo para a instalação do sistema:
 
+## Iniciar os containers do docker
+
+docker-compose up -d
 
 ## Instalar os pacotes do composer
 

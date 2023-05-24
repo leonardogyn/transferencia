@@ -39,5 +39,7 @@ class UserTypeService implements UserTypeServiceInterface
     }
     public function delete($model)
     {
+        $delete = $this->find($model['id']);
+        return $delete->delete();
     }
 }

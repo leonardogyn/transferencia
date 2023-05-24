@@ -50,7 +50,6 @@ class UserTypeRequest extends FormRequest
             $rules_update = [
                 'id' => [
                     'required',
-                    'cnpj',
                     'unique:user_types,id,' . $this->id . ',id',
                     'string',
                     'max:36'
@@ -65,7 +64,7 @@ class UserTypeRequest extends FormRequest
                     'required',
                     'unique:user_types,flag,' . $this->flag . ',flag',
                     'string',
-                    'max:100',
+                    'max:1',
                 ],
             ];
 

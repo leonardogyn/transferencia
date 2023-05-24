@@ -3,6 +3,7 @@
 namespace Modules\UserType\Rule;
 
 use Illuminate\Contracts\Validation\Rule;
+use Modules\User\Entities\User;
 
 class ExcludeUserTypeRule implements Rule
 {
@@ -26,10 +27,8 @@ class ExcludeUserTypeRule implements Rule
     public function passes($attribute, $value)
     {
         // check if the record is already in use.
-        //$result = CertameCargo::where('cdCargo', $value)->count();
-        //if ($result > 0) return false;
-
-        return true;
+        $result = User::where('user_type_id', $value)->count();
+        return  ($result > 0) ? false : true;
     }
 
     /**
