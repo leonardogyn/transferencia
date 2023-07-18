@@ -30,6 +30,8 @@ Obs:
 ## Documentação - Swagger API
 
  - [Swagger API](http://localhost/api/)
+ * Observação: É preciso Gerar a doc do swagger
+ http://localhost/api/generation.php
 
 
 
