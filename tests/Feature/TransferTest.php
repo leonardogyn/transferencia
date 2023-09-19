@@ -8,6 +8,8 @@ use Tests\TestCase;
 
 class TransferTest extends TestCase
 {
+    use RefreshDatabase;
+
     protected $serviceTypeUser = UserType::class;
 
     /**

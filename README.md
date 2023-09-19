@@ -8,30 +8,43 @@ docker-compose up -d
 
 ## Instalar os pacotes do composer
 
-docker-compose -f docker-compose.yaml exec php-fpm composer install
+docker-compose exec php-fpm composer install
 
 ## Limpar o cache do Laravel
 
-docker-compose -f docker-compose.yaml exec php-fpm php artisan optimize
+docker-compose exec php-fpm php artisan optimize
+
+## Link do public com o storage
+
+ docker-compose exec php-fpm php artisan storage:link
 
 ## Gerar as tabelas no banco de dados
 
-docker-compose -f docker-compose.yaml exec php-fpm php artisan migrate --seed 
+docker-compose exec php-fpm php artisan migrate
 
-## Cobertura de teste de código
 
-docker-compose -f docker-compose.yaml exec php-fpm php -d xdebug.mode=coverage vendor/phpunit/phpunit/phpunit --coverage-html ./storage/reports/
 
-Obs:
- - Será criado um diretório "reports" dentro da pasta "storage"
- - Acessar o diretório  "reports" e abrir o index.html no navegador de sua escolha. 
+## Efetuar os testes no sistema
+
+docker-compose exec php-fpm php artisan test
+
 
 
 ## Documentação - Swagger API
 
+ * Observação: É preciso Gerar a doc do swagger: http://localhost/api/generation.php
+
  - [Swagger API](http://localhost/api/)
- * Observação: É preciso Gerar a doc do swagger
- http://localhost/api/generation.php
+ 
+
+
+## Cobertura de teste de código
+
+docker-compose exec php-fpm php -d xdebug.mode=coverage vendor/phpunit/phpunit/phpunit --coverage-html ./storage/app/public/reports/
+
+Obs: Será criado um diretório "reports" dentro da pasta "storage/app/public"
+
+ - [Cobertura de teste de código](http://localhost/storage/reports/dashboard.html)
 
 
 
@@ -44,6 +57,7 @@ Laravel é um framework de aplicações web com sintaxe expressiva e elegante. A
 
  - [Documentação](https://laravel.com/docs)
  - [Laracasts](https://laracasts.com)
+
 
 
 ## Licença
